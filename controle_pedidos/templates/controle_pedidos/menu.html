@@ -1,0 +1,15 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Comanda Eletrônica - Menu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+      <h1 class="display-4">Bem-vindo, gerente!</h1>
+      <p class="lead">A partir daqui, acesse as páginas de gerenciamento do Sistema de Comanda Eletrônica</p>
+      <hr class="my-4">
+      <p>Acesse a partir daqui o gerenciamento de produtos disponíveis e a lista de pedidos ativos</p>
+      <a class="btn btn-primary btn-lg mb-4" href="{% url 'controle_pedidos:idcomanda' %}" role="button">Lista de pedidos ativos</a>
+      <a class="btn btn-primary btn-lg mb-4" href="{% url 'controle_pedidos:gerenciaprodutos' %}" role="button">Gerenciamento de Produtos</a>
+    </div>
+</div>
+{% endblock %}

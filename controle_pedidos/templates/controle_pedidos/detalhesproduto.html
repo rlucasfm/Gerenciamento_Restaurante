@@ -1,0 +1,69 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Comanda Eletrônica - Menu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <label class="col-md-2 col-form-label">Nome do produto:</label>
+        <label class="col-md-10">{{ nome }}</label>
+    </div>
+    <div class="row text-center">
+        <label class="col-md-2 col-form-label">Valor do produto:</label>
+        <label class="col-md-10">{{ valor }}</label>
+    </div>
+    <div class="row text-center">
+        <label class="col-md-2 col-form-label">Descrição do produto:</label>
+        <label class="col-md-10">{{ descricao }}</label>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <input type="button" value="Modificar" class="btn btn-primary" data-toggle="modal" data-target="#myModal"/>
+        </div>
+        <div class="col text-center">
+            <a class="btn btn-secondary" href="{% url 'controle_pedidos:gerenciaprodutos' %}" role="button">Fechar</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Modificar -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar produtos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+          <form method="POST">
+              {% csrf_token %}
+              <div class="form-row">
+                  <div class="form-group col-md">
+                        <label for="nomeProd">Nome:</label>
+                        <input type="text" class="form-control" id="nomeProd" name="nomeProd" placeholder="{{ nome }}">
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group col-md">
+                      <label for="valorProd">Valor: </label>
+                      <input type="number" step="0.01" id="valorProd" name="valorProd" placeholder="{{ valor }}">
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="form-group col-md">
+                        <label for="descProd">Descrição:</label>
+                        <input type="text" class="form-control" id="descProd" name="descProd" placeholder="{{ descricao }}">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Modificar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

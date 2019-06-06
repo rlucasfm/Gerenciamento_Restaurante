@@ -1,0 +1,82 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Comanda Eletrônica - Detalhes Pedido{% endblock %}
+
+{% block content %}
+
+<!-- Tabela com os produtos do pedido -->
+<div class="container text-center">
+    <div class="row">
+        <h2 class="mx-auto">Pedido da comanda {{ id }}</h2>
+    </div>
+    <div class="row mx-auto">
+        <h4 class="mx-auto">Mesa: {{ mesa }}</h4>
+        {% if pago == True %}
+            <div class="alert alert-success mx-auto" role="alert">
+                O pedido já foi pago!
+            </div>
+        {% else %}
+            <div class="alert alert-danger mx-auto" role="alert">
+                O pedido ainda não foi pago!
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="container mx-auto mb-5">
+        <table class="table table-striped">
+            <thead>
+                <th scope="col"><p class="mx-auto">Produto:</p></th>
+                <th scope="col"><p class="mx-auto">Valor:</p></th>
+                <th scope="col"><p class="mx-auto">Quantidade:</p></th>
+            </thead>
+            <tbody>
+            {% for col in lista %}
+                <tr>
+                    {% for linha in col %}
+                    <td>{{ linha }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <input type="button" value="Modificar" class="btn btn-primary" data-toggle="modal" data-target="#adicionarModal"/>
+    <input type="button" value="Voltar" class="btn btn-secondary" onclick="location.href='{% url 'controle_pedidos:idcomanda' %}'"/>
+
+</div>
+
+<!-- Modal Modificar -->
+<div class="modal fade" id="adicionarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar status da comanda</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+          <form method="POST">
+              {% csrf_token %}
+              <div class="form-row mx-auto">
+                  <div class="form-group col-md mx-auto">
+                      <label for="pago">Pagamento</label>
+                        <select class="form-control" name="pago" id="pago">
+                            <option>Já foi feito</option>
+                            <option>Ainda não foi feito</option>
+                        </select>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Modificar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

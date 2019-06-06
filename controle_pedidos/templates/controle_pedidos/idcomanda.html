@@ -1,0 +1,84 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Gerenciamento de Comandas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <p class="h2 text-center mb-5"><strong>Pesquisar ID da Comanda</strong></p>
+    </div>
+</div>
+
+<div class="container text-center">
+        <div class="col-xl-12 mx-auto">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-inline">
+                    <div class="row mb-4">
+                        <div class="col-md mx-auto">
+                            <label>ID da Comanda: </label>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control" name="idcomanda" placeholder="ID da Comanda">
+                        </div>
+                        {% if perm == True %}
+                        <div class="col-md">
+                            <a role="button" class="btn btn-primary" href="{% url 'controle_pedidos:listapedidos' %}">Ver lista de pedidos</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="row">
+                        <div class="col-md mx-auto">
+                            <input type="submit" class="btn btn-primary" value="Confirmar">
+                        </div>
+                        {% if perm == True %}
+                        <div class="col-md mx-auto">
+                            <a class="btn btn-secondary" href="{% url 'controle_pedidos:menu' %}">Voltar</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ID de Comanda inativo!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>{{ erro }}</p>
+          {% if perm != True %}
+            <p>Você pode adicionar uma nova comanda aqui:</p>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-success" href="novopedido/{{ idpedido }}">Adicionar</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+          {% endif %}
+      </div>
+        {% if perm == True %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% if erro %}
+    <script>
+    $(document).ready(function(){
+    $("#myModal").modal();
+  });
+    </script>
+{% endif %}
+
+{% endblock %}
