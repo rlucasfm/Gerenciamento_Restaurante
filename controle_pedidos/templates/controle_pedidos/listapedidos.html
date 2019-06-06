@@ -1,0 +1,56 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Comanda Eletrônica - Menu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form class="form-inline" method="POST">
+        {% csrf_token %}
+          <div class="form-group col-4">
+                <small for="idCom" class="form-text text-muted">ID Comanda: </small>
+                <input type="number" step="1" class="form-control" id="idCom" name="idCom">
+          </div>
+          <div class="form-group col-4">
+                <small for="numMesa" class="form-text text-muted">Número da Mesa: </small>
+                <input type="number" step="1" class="form-control" id="numMesa" name="numMesa">
+          </div>
+        <div class="form-group col-4">
+                <small for="dataCom" class="form-text text-muted">Data: </small>
+                <input type="date"  class="form-control" id="dataCom" name="dataCom">
+          </div>
+        <div class="form-group row mx-auto">
+            <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <th scope="col"><p class="mx-auto">Código da Comanda:</p></th>
+            <th scope="col"><p class="mx-auto">Código da Mesa:</p></th>
+            <th scope="col"><p class="mx-auto">Data:</p></th>
+            <th scope="col"><p class="mx-auto">Pago:</p></th>
+            <th scope="col"><p class="mx-auto">Valor Total:</p></th>
+        </thead>
+        <tbody>
+            {% for prod in lista %}
+                <tr>
+                    {% for linha in prod %}
+                    <td>{{ linha }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <a role="button" class="btn btn-secondary" href="{% url 'controle_pedidos:idcomanda' %}">Voltar</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

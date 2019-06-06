@@ -1,0 +1,33 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Comanda Eletrônica - Menu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+      <h1 class="display-4">Criar novo pedido</h1>
+      <p class="lead">Criar um novo pedido para o ID {{ idcomanda }}</p>
+      <hr class="my-4">
+      <p>Qual o código da mesa?</p>
+        <div class="row mx-auto">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-inline">
+                <div class="row mb-4 mx-auto">
+                        <div class="col-md">
+                            <input type="number" step="1" class="form-control" name="codigomesa" placeholder="Código da Mesa">
+                        </div>
+                        <div class="col-md">
+                            <input type="submit" class="btn btn-success" value="Criar pedido">
+                        </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<div class="container mx-auto">
+    <div class="row mx-auto">
+        <a class="btn btn-secondary mx-auto" href="{% url 'controle_pedidos:idcomanda' %}">Voltar</a>
+    </div>
+</div>
+{% endblock %}

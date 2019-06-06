@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Controle de Comandas eletrônicas">
+    <meta name="author" content="Richard Lucas">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'controle_pedidos/css/bootstrap.css' %}" >
+    <!-- Bootstrap, JQuery e Popper JS -->
+    <script src="{% static 'controle_pedidos/jquery-3.3.1.slim.min.js' %}" ></script>
+    <script src="{% static 'controle_pedidos/popper.min.js' %}" ></script>
+    <script src="{% static 'controle_pedidos/js/bootstrap.min.js' %}" ></script>
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'controle_pedidos/theme/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'controle_pedidos/theme/vendor/simple-line-icons/css/simple-line-icons.css' %} " rel="stylesheet" type="text/css">
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'controle_pedidos/theme/css/landing-page.css' %}" rel="stylesheet">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<!-- Navigation -->
+  <nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+        <div class="col-md">
+            <a class="navbar-brand" %}">Sistema de Comandas eletrônicas</a>
+        </div>
+        <div class="col-md mx-auto">
+            <p>{{usuariologado}}</p>
+        </div>
+        <div class="col-sm">
+        {% if usuariologado != 'Deslogado'%}
+            <a class="btn btn-danger btn-sm" href="{% url 'controle_pedidos:logout' %}">Logout</a>
+        {% endif %}
+        </div>
+    </div>
+  </nav>
+
+{% block content %}{% endblock %}
+
+
+<!-- Footer -->
+  <footer class="footer bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+          <ul class="list-inline mb-2">
+            <li class="list-inline-item">
+              <a href="#">Sobre</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#">Contatos</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#">Termos de Uso</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#">Política de Privacidade</a>
+            </li>
+          </ul>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; Richard Lucas 2019. Todos os direitos reservados.</p>
+        </div>
+        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item mr-3">
+              <a href="#">
+                <i class="fab fa-facebook fa-2x fa-fw"></i>
+              </a>
+            </li>
+            <!--<li class="list-inline-item mr-3">
+              <a href="#">
+                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+              </a>
+            </li>
+            <<li class="list-inline-item">
+              <a href="#">
+                <i class="fab fa-instagram fa-2x fa-fw"></i>
+              </a>
+            </li>-->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'controle_pedidos/base.html' %}
+{% block title %}Comanda Eletrônica - Menu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="list-group">
+        <div class="row md-4">
+            <div class="col-4"></div>
+            <div class="col-md-4 text-center">
+                {% for prod in listaprodutos %}
+                    <a href="{% url 'controle_pedidos:detalhesproduto' prod.pk %}" class="list-group-item list-group-item-action">{{prod.nome}}</a>
+                {% endfor %}
+            </div>
+                <div class="col-4"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <a class="btn btn-primary btn-md mx-auto" role="button" href="{% url 'controle_pedidos:adicionarproduto' %}">Adicionar</a>
+        </div>
+        <div class="col text-center">
+            <a class="btn btn-secondary btn-md" role="button" href="{% url 'controle_pedidos:menu' %}">Fechar</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
