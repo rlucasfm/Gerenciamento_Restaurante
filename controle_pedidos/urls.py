@@ -14,4 +14,6 @@ urlpatterns = [
     path('gerenciaprodutos/detalhes/<int:id>', views.DetalhesProduto, name='detalhesproduto'),
     path('gerenciaprodutos/adicionar', views.AdicionarProduto, name='adicionarproduto'),
     path('listapedidos', views.ListaPedidos, name='listapedidos'),
+    path('gerenciaprodutos/deletar/<int:id>', views.DeletarProduto, name='deletarproduto'),
+    path('menu/cadastraratendente', views.CadastrarAtendente, name='cadastraratendente'),
 ]

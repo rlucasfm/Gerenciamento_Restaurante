@@ -20,7 +20,7 @@
                         <div class="col-md">
                             <input type="text" class="form-control" name="idcomanda" placeholder="ID da Comanda">
                         </div>
-                        {% if perm == True %}
+                        {% if perm == 'True' %}
                         <div class="col-md">
                             <a role="button" class="btn btn-primary" href="{% url 'controle_pedidos:listapedidos' %}">Ver lista de pedidos</a>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="col-md mx-auto">
                             <input type="submit" class="btn btn-primary" value="Confirmar">
                         </div>
-                        {% if perm == True %}
+                        {% if perm == 'True' %}
                         <div class="col-md mx-auto">
                             <a class="btn btn-secondary" href="{% url 'controle_pedidos:menu' %}">Voltar</a>
                         </div>
@@ -55,7 +55,7 @@
       </div>
       <div class="modal-body">
           <p>{{ erro }}</p>
-          {% if perm != True %}
+          {% if perm != 'True' %}
             <p>Você pode adicionar uma nova comanda aqui:</p>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-success" href="novopedido/{{ idpedido }}">Adicionar</a>
@@ -63,7 +63,7 @@
                 </div>
           {% endif %}
       </div>
-        {% if perm == True %}
+        {% if perm == 'True' %}
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>

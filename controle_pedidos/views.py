@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .models import Produto, Pedido, ItensPedido
+
 
 
 def Login(request):
@@ -52,10 +53,10 @@ def IDComanda(request):
     if request.user.is_authenticated:
         context['usuariologado'] = 'Logado como: ' + request.user.get_short_name()
         if (request.user.has_perm('controle_pedidos.delete_pedido')):
-            context['perm']= True
+            context['perm']= 'True'
             perm = True
         else:
-            context['perm'] = False
+            context['perm'] = 'False'
             perm = False
     else:
         context['usuariologado'] = 'Deslogado'
@@ -274,22 +275,27 @@ def AdicionarProduto(request):
         valorProd = request.POST['valorProduto']
         descProd = request.POST['descricaoProduto']
 
-        if(nomeProd and valorProd):
-            Produto(nome=nomeProd,valor_unitario=valorProd).save()
-            if(descProd):
-                Produto(nome=nomeProd, valor_unitario=valorProd, descricao=descProd).save()
-                return redirect(reverse('controle_pedidos:gerenciaprodutos',), context)
+        if(not Produto.objects.filter(nome=nomeProd)):
+            if(nomeProd and valorProd):
+                if(descProd):
+                    Produto(nome=nomeProd, valor_unitario=valorProd, descricao=descProd).save()
+                    return redirect(reverse('controle_pedidos:gerenciaprodutos',), context)
+                else:
+                    Produto(nome=nomeProd, valor_unitario=valorProd).save()
+                    return redirect(reverse('controle_pedidos:gerenciaprodutos', ), context)
+            else:
+                context['erro']="Complete os campos de Nome e Valor do produto."
+                return render(request, 'controle_pedidos/adicionarproduto.html', context)
         else:
-            context['erro']="Complete os campos de Nome e Valor do produto."
+            context['erro'] ='Já existe um produto com este nome'
             return render(request, 'controle_pedidos/adicionarproduto.html', context)
 
     except(KeyError):
         return render(request, 'controle_pedidos/adicionarproduto.html', context)
 
-    return render(request, 'controle_pedidos/adicionarproduto.html', context)
-
 def DetalhesProduto(request,id):
     context ={}
+    context['id'] = id
     # Confirmação de usuário para o Navbar
     if request.user.is_authenticated:
         context['usuariologado'] = 'Logado como: ' + request.user.get_short_name()
@@ -391,4 +397,54 @@ def ListaPedidos(request):
     except:
         return render(request, 'controle_pedidos/listapedidos.html', context)
 
+def DeletarProduto(request, id):
+    context = {}
+    # Confirmação de usuário para o Navbar
+    if request.user.is_authenticated:
+        context['usuariologado'] = 'Logado como: ' + request.user.get_short_name()
+        if (not request.user.has_perm('controle_pedidos.delete_pedido')):
+            return redirect(reverse('controle_pedidos:idcomanda', ), context)
+    else:
+        context['usuariologado'] = 'Deslogado'
+        return redirect(reverse('controle_pedidos:login', ), context)
+
+    Produto.objects.filter(pk=id).delete()
+    ItensPedido.objects.filter(cod_produto=id).delete()
+
+    return redirect(reverse('controle_pedidos:gerenciaprodutos', ), context)
+
+def CadastrarAtendente(request):
+    context = {}
+    # Confirmação de usuário para o Navbar
+    if request.user.is_authenticated:
+        context['usuariologado'] = 'Logado como: ' + request.user.get_short_name()
+        if (not request.user.has_perm('controle_pedidos.delete_pedido')):
+            return redirect(reverse('controle_pedidos:idcomanda', ), context)
+    else:
+        context['usuariologado'] = 'Deslogado'
+        return redirect(reverse('controle_pedidos:login', ), context)
+
+    try:
+        nome = request.POST['nomeCom']
+        user = request.POST['username']
+        password = request.POST['password']
+
+        if(not User.objects.filter(username=user)):
+            if(nome and user and password):
+                usuario = User.objects.create_user(username=user, password=password, first_name=nome)
+                my_group = Group.objects.get(name='Atendimento')
+                usuario.save()
+                my_group.user_set.add(usuario)
+                return redirect(reverse('controle_pedidos:menu', ), context)
+
+            else:
+                context['erro'] = 'Complete todos os campos!'
+                return render(request, 'controle_pedidos/cadastraratendente.html', context)
+        else:
+            context['erro'] = 'Já existe um usuário com este nome!'
+            return render(request, 'controle_pedidos/cadastraratendente.html', context)
+
+    except:
+        return render(request, 'controle_pedidos/cadastraratendente.html', context)
+    pass
 
